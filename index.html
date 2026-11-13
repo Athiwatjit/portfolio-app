@@ -139,7 +139,7 @@ details.opening .grid{display:grid;gap:8px;margin-top:10px}
 </head>
 <body>
 <div id="app" class="wrap"></div>
-<script type="application/json" id="state">{"v":2,"updated":"2026-11-06","feePct":0.168,"opening":{"date":"2026-11-06","cash":4048.77,"holdings":[{"sym":"ERW","qty":18000,"avg":5.38},{"sym":"KOOL","qty":500000,"avg":0.67}]},"prices":{"ERW":3.6,"KOOL":0.24},"entries":[]}</script>
+<script type="application/json" id="state">{"v": 2, "updated": "", "feePct": 0.168, "opening": {"date": "2026-11-01", "cash": 0, "holdings": []}, "prices": {}, "entries": []}</script>
 <script id="main">
 (function(){
 function migrate(s){
@@ -261,6 +261,7 @@ function render(){
     </div>
   </header>
 
+  ${(!S.opening.holdings.length && !S.entries.length)?`<p class="notice" style="margin:0">เริ่มใช้งาน: กด <b>กู้คืนจากไฟล์</b> ด้านล่างเพื่อโหลดข้อมูลพอร์ตของคุณ หรือเปิด <b>ยอดยกมา</b> แล้วใส่หุ้นที่ถืออยู่เอง</p>`:''}
   <section class="verdict" aria-label="สรุป">
     <div>
       <div class="muted small">กำไร/ขาดทุนสุทธิทั้งหมด (ยังไม่ขาย + ขายแล้ว + ปันผล)</div>
@@ -342,7 +343,7 @@ function render(){
         <td class="l note" title="${esc(r.err||r.note)}">${r.err?`<span class="loss">${esc(r.err)}</span>`:esc(r.note)}</td>
         <td><button class="ghost" data-del="${r._i}" aria-label="ลบรายการ ${thDate(r.date)} ${TYPES[r.type]} ${esc(r.sym||'')}">ลบ</button></td>
       </tr>`).join('')}
-        <tr><td class="l">${thDate(S.opening.date)}</td><td class="l"><span class="chip open">ยอดยกมา</span></td><td class="l symc" colspan="4">${S.opening.holdings.map(h=>esc(h.sym)).join(', ')}</td><td></td><td></td><td class="num">0.00</td><td class="num">${fmt(S.opening.cash)}</td><td class="l note">จากรูปพอร์ต</td><td></td></tr>
+        <tr><td class="l">${thDate(S.opening.date)}</td><td class="l"><span class="chip open">ยอดยกมา</span></td><td class="l symc" colspan="4">${S.opening.holdings.map(h=>esc(h.sym)).join(', ')}</td><td></td><td></td><td class="num">0.00</td><td class="num">${fmt(S.opening.cash)}</td><td class="l note"></td><td></td></tr>
       </tbody>
     </table></div>
     ${A.rows.length?'':`<p class="empty" style="margin:0">ยังไม่มีรายการซื้อขาย พอบันทึกรายการแรก กำไร/ขาดทุนสะสมจะเริ่มนับจากตรงนี้</p>`}
@@ -411,7 +412,7 @@ function render(){
     </details>
   </section>
 
-  <p class="foot">ข้อมูลตั้งต้นมาจากรูปพอร์ตวันที่ 6 พ.ย. 2569 ราคาหุ้นไม่อัปเดตเอง ให้ใส่ราคาล่าสุดเอง ต้นทุนเฉลี่ยคิดแบบถัวเฉลี่ยรวมค่าธรรมเนียมซื้อ กำไรที่ขายแล้ว = เงินที่ได้หลังหักค่าธรรมเนียม − ต้นทุนเฉลี่ย × จำนวนที่ขาย ค่าธรรมเนียมเริ่มต้น 0.168% คือค่าคอม 0.157% รวม VAT ปรับได้ตามโบรกเกอร์ของคุณ</p>
+  <p class="foot">ข้อมูลทั้งหมดเก็บอยู่ในเครื่องนี้เท่านั้น ไม่ถูกส่งไปที่ไหน ราคาหุ้นไม่อัปเดตเอง ให้ใส่ราคาล่าสุดเอง ต้นทุนเฉลี่ยคิดแบบถัวเฉลี่ยรวมค่าธรรมเนียมซื้อ กำไรที่ขายแล้ว = เงินที่ได้หลังหักค่าธรรมเนียม − ต้นทุนเฉลี่ย × จำนวนที่ขาย ค่าธรรมเนียมเริ่มต้น 0.168% คือค่าคอม 0.157% รวม VAT ปรับได้ตามโบรกเกอร์ของคุณ</p>
 
   <section class="card" aria-label="สำรองข้อมูล">
     <div class="card-head"><h2>สำรองและกู้คืนข้อมูล</h2><span class="muted small">${storageOk?'บันทึกอัตโนมัติในเครื่องนี้ทุกครั้งที่แก้':'<span class="loss">บันทึกลงเครื่องไม่ได้ ให้สำรองข้อมูลไว้ก่อนปิดแอป</span>'}</span></div>
